@@ -14,7 +14,7 @@ func init() {
 				"database": config.Env("DB_DATABASE", "gohub"),
 				"username": config.Env("DB_USERNAME", ""),
 				"password": config.Env("DB_PASSWORD", ""),
-				"charset":  "uft8mb4",
+				"charset":  "utf8mb4",
 				//连接池地址
 				"max_idle_connections": config.Env("DB_MAX_IDLE_CONNECTIONS", 100),
 				"max_open_connections": config.Env("DB_MAX_OPEN_CONNECTIONS", 25),
