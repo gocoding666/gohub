@@ -2,7 +2,6 @@
 package auth
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	v1 "gohub/app/http/controller/api/v1"
 	"gohub/app/models/user"
@@ -19,23 +18,7 @@ type SignupController struct {
 func (sc *SignupController) IsPhoneExist(c *gin.Context) {
 	//请求对象
 	request := requests.SignupPhoneExistRequest{}
-	//解析JSON请求
-	if err := c.ShouldBindJSON(&request); err != nil {
-		//解析失败，返回422状态码和错误信息
-		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
-			"error": err.Error(),
-		})
-		//打印错误信息
-		fmt.Println(err.Error())
-		//出错了，终端请求
-		return
-	}
-	//表单验证
-	errs := requests.ValidateSignupPhoneExist(&request, c)
-	// errs返回长度等于零即通过，大于0既有错误发生
-	if len(errs) > 0 {
-		//验证失败，返回422状态码和错误信息
-		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{"errors": errs})
+	if ok := requests.Validate(c, &request, requests.SignupPhoneExist); !ok {
 		return
 	}
 	//检查数据库并返回响应
@@ -49,24 +32,9 @@ func (sc *SignupController) IsPhoneExist(c *gin.Context) {
 //	@param c
 func (sc SignupController) IsEmailExist(c *gin.Context) {
 	//初始化请求对象
-	request := requests.SignEmailExistRequest{}
-	//解析JSON对象
-	if err := c.ShouldBindJSON(&request); err != nil {
-		//解析失败，返回422状态码和错误信息
-		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{
-			"error": err.Error(),
-		})
-		//打印错误信息
-		fmt.Println(err.Error())
-		//出错了，中断请求
-		return
-	}
-	//表单验证
-	errs := requests.ValidateSignupEmailExist(&request, c)
-	//errs 返回长度登录零即通过，大于0即有错误发生
-	if len(errs) > 0 {
-		//验证失败，返回422状态码和错误信息
-		c.AbortWithStatusJSON(http.StatusUnprocessableEntity, gin.H{"errors": errs})
+	request := requests.SignupEmailExistRequest{}
+
+	if ok := requests.Validate(c, &request, requests.SignupEmailExist); !ok {
 		return
 	}
 	//验证数据库并返回响应
