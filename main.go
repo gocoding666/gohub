@@ -21,7 +21,11 @@ func main() {
 	config.InitConfig(env)
 	//初始化Logger
 	bootstrap.SetupLogger()
-
+	// 设置gin的运行模式，支持debug,release,test
+	//release会屏蔽调试信息，官方建议生产环境中使用
+	//非release模型gin终端打印太多信息，干扰到我们程序中的Log
+	// 故此设置为release,有特殊情况手动改为debug即可
+	gin.SetMode(gin.ReleaseMode)
 	// new 一个 Gin Engine 实例
 	r := gin.New()
 	//初始化DB

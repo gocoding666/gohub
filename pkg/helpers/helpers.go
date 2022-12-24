@@ -1,7 +1,11 @@
 // package helpers存放辅助方法
 package helpers
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+	"time"
+)
 
 func Empty(val interface{}) bool {
 	if val == nil {
@@ -25,4 +29,13 @@ func Empty(val interface{}) bool {
 		return v.IsNil()
 	}
 	return reflect.DeepEqual(val, reflect.Zero(v.Type()).Interface())
+}
+
+// MicrosecondsStr
+//
+//	@Description: 将time.Duration类型输出为小数点后3位的ms(microsecond毫秒，千分之一秒)
+//	@param elapsed
+//	@return string
+func MicrosecondsStr(elapsed time.Duration) string {
+	return fmt.Sprintf("%.3fms", float64(elapsed.Nanoseconds())/1e6)
 }

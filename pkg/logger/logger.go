@@ -109,7 +109,7 @@ func getLogWriter(filename string, maxSize, maxBackup, maxAge int, compress bool
 func Dump(value interface{}, msg ...string) {
 	valueString := jsonString(value)
 	// 判断第二个参数是否传参 msg
-	if len(mag) > 0 {
+	if len(msg) > 0 {
 		Logger.Warn("Dump", zap.String(msg[0], valueString))
 	} else {
 		Logger.Warn("Dump", zap.String("data", valueString))
