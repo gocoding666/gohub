@@ -9,6 +9,7 @@ import (
 	"gohub/pkg/captcha"
 	"gohub/pkg/config"
 	"gohub/pkg/logger"
+	"gohub/pkg/sms"
 )
 
 func init() {
@@ -35,6 +36,12 @@ func main() {
 	bootstrap.SetupRedis()
 	// 初始化路由绑定
 	bootstrap.SetupRoute(r)
+
+	sms.NewSMS().Send("17729732926", sms.Message{
+		Template: config.GetString("sms.aliyun.template_code"),
+		Data:     map[string]string{"code": "123456"},
+	})
+
 	//028654
 	//E00uNvgBC7ETaREmhmnF
 	logger.Dump(captcha.NewCaptcha().VerifyCaptcha("E00uNvgBC7ETaREmhmnF", "028654"), "正确的答案")
