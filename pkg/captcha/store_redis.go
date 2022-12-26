@@ -2,8 +2,10 @@ package captcha
 
 import (
 	"errors"
+	"go.uber.org/zap"
 	"gohub/pkg/app"
 	"gohub/pkg/config"
+	"gohub/pkg/logger"
 	"gohub/pkg/redis"
 	"time"
 )
@@ -21,6 +23,7 @@ func (s *RedisStore) Set(key string, value string) error {
 	if app.IsLocal() {
 		ExpireTime = time.Minute * time.Duration(config.GetInt64("captcha.debug_expire_time"))
 	}
+	logger.Warn("zbqtest", zap.String("captcha", s.KeyPrefix+key))
 	if ok := s.RedisClient.Set(s.KeyPrefix+key, value, ExpireTime); !ok {
 		return errors.New("无法存储图片验证码答案")
 	}

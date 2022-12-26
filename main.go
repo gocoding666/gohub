@@ -6,7 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"gohub/bootstrap"
 	btsConfig "gohub/config"
+	"gohub/pkg/captcha"
 	"gohub/pkg/config"
+	"gohub/pkg/logger"
 )
 
 func init() {
@@ -33,6 +35,10 @@ func main() {
 	bootstrap.SetupRedis()
 	// 初始化路由绑定
 	bootstrap.SetupRoute(r)
+	//028654
+	//E00uNvgBC7ETaREmhmnF
+	logger.Dump(captcha.NewCaptcha().VerifyCaptcha("E00uNvgBC7ETaREmhmnF", "028654"), "正确的答案")
+
 	// 运行服务
 	err := r.Run(":" + config.Get("app.port"))
 	if err != nil {

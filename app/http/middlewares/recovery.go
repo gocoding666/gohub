@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"gohub/pkg/logger"
+	"gohub/pkg/response"
 	"net"
-	"net/http"
 	"net/http/httputil"
 	"os"
 	"strings"
@@ -47,9 +47,7 @@ func Recovery() gin.HandlerFunc {
 					zap.String("request", string(httpRequest)), //请求信息
 					zap.Stack("stacktrace"),                    //调用堆栈信息
 				)
-				//返回500状态码
-				c.AbortWithStatusJSON(http.StatusInternalServerError,
-					gin.H{"message": "服务器内部错误，请稍后再试"})
+				response.Abort500(c)
 			}
 		}()
 		c.Next()
