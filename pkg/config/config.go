@@ -17,6 +17,7 @@ type ConfigFunc func() map[string]interface{}
 var ConfigFuncs map[string]ConfigFunc
 
 func init() {
+	// fmt.Println("配置模块-启动顺序验证-/pkg/config/config.go/init(){}")
 	// 1.初始化viper库
 	viper = viperlib.New()
 	//2.配置类型，支撑“json”,"toml","yaml","yml","properties","props","prop","env","dotenv"
@@ -32,17 +33,15 @@ func init() {
 
 // InitConfig初始化配置信息，完成对环境变量以及config信息的加载
 func InitConfig(env string) {
+	// fmt.Println("配置模块-启动顺序验证-/pkg/config/config.go/InitConfig(){}")
 	//1.加载环境变量
 	loadEnv(env)
 	//2.注册配置信息
 	loadConfig()
 }
-func loadConfig() {
-	for name, fn := range ConfigFuncs {
-		viper.Set(name, fn())
-	}
-}
+
 func loadEnv(envSuffix string) {
+	// fmt.Println("配置模块-启动顺序验证-/pkg/config/config.go/loadEnv(){}")
 	//默认加载.env文件，如果有传参--env=name的话，加载.env.name文件
 	envPath := ".env"
 	if len(envSuffix) > 0 {
@@ -60,9 +59,16 @@ func loadEnv(envSuffix string) {
 	//监控.env文件，变更时重新加载
 	viper.WatchConfig()
 }
+func loadConfig() {
+	// fmt.Println("配置模块-启动顺序验证-/pkg/config/config.go/loadConfig(){}")
+	for name, fn := range ConfigFuncs {
+		viper.Set(name, fn())
+	}
+}
 
 // Env读取环境变量，支持默认值
 func Env(envName string, defaultValue ...interface{}) interface{} {
+	// fmt.Println("配置模块-启动顺序验证-/pkg/config/config.go/Env(){}")
 	if len(defaultValue) > 0 {
 		return internalGet(envName, defaultValue[0])
 	}

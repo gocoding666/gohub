@@ -1,6 +1,8 @@
 package config
 
-import "gohub/pkg/config"
+import (
+	"gohub/pkg/config"
+)
 
 func init() {
 	config.Add("redis", func() map[string]interface{} {
