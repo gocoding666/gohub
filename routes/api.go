@@ -3,6 +3,9 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"gohub/app/http/controller/api/v1/auth"
+	"gohub/app/http/middlewares"
+	authpkg "gohub/pkg/auth"
+	"gohub/pkg/response"
 	"net/http"
 )
 
@@ -42,5 +45,9 @@ func RegisterAPIRoutes(r *gin.Engine) {
 			"Hello": "World!",
 		})
 	})
+	v1.GET("/test_auth", middlewares.AuthJWT(), func(c *gin.Context) {
+		userModel := authpkg.CurrentUser(c)
+		response.Data(c, userModel)
 
+	})
 }
