@@ -44,12 +44,6 @@ func RegisterAPIRoutes(r *gin.Engine) {
 			authGroup.POST("/password-reset/using-email", pwc.ResetByEmail)
 		}
 	}
-	// 注册一个路由
-	v1.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"Hello": "World!",
-		})
-	})
 	v1.GET("/test_auth", middlewares.AuthJWT(), func(c *gin.Context) {
 		userModel := authpkg.CurrentUser(c)
 		response.Data(c, userModel)
