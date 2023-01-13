@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"gohub/bootstrap"
 	btsConfig "gohub/config"
 	"gohub/pkg/config"
+
+	"github.com/gin-gonic/gin"
 )
 
 func init() {
@@ -45,4 +46,5 @@ func main() {
 		//错误处理，端口被占用了或者其他错误
 		fmt.Printf("Gohub  start Error : %v ", err)
 	}
+	fmt.Printf("Gohub  started... ")
 }
