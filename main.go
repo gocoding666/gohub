@@ -40,6 +40,7 @@ func main() {
 	rootCmd.AddCommand(
 		cmd.CmdServe,
 		cmd.CmdKey,
+		cmd.CmdPlay,
 	)
 	//配置默认运行Web服务
 	cmd.RegisterDefaultCmd(rootCmd, cmd.CmdServe)
