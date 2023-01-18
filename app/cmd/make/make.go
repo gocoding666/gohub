@@ -35,6 +35,7 @@ func init() {
 	// 注册make的子命令
 	CmdMake.AddCommand(
 		CmdMakeCMD,
+		CmdMakeModel,
 	)
 }
 
@@ -70,7 +71,7 @@ func createFileFromStub(filePath string, stubName string, model Model, variables
 	modelStub := string(modelData)
 	//添加默认的替换变量
 	replaces["{{VariableName}}"] = model.VariableName
-	replaces["{{VaribaleNamePlural}}"] = model.VariableNamePlural
+	replaces["{{VariableNamePlural}}"] = model.VariableNamePlural
 	replaces["{{StructName}}"] = model.StructName
 	replaces["{{StructNamePlural}}"] = model.StructNamePlural
 	replaces["{{PackageName}}"] = model.PackageName
