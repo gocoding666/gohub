@@ -18,7 +18,7 @@ func Error(msg string) {
 }
 
 // Warning 打印一条提示消息，黄色输出
-func Waring(msg string) {
+func Warning(msg string) {
 	colorOut(msg, "yellow")
 }
 
