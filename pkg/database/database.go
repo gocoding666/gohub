@@ -4,6 +4,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+
 	"gorm.io/gorm"
 	gormlogger "gorm.io/gorm/logger"
 )
