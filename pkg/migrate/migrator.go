@@ -75,6 +75,45 @@ func (migrator *Migrator) Up() {
 	}
 }
 
+// Rollback回滚上一个操作
+func (migrator *Migrator) Rollback() {
+	//获取最后一批次的迁移数据
+	lastMigration := Migration{}
+	migrator.DB.Order("id DESC").First(&lastMigration)
+	migrations := []Migration{}
+	migrator.DB.Where("batch = ?", lastMigration.Batch).Order("id DESC").Find(&migrations)
+
+	//回滚最后一批次的迁移
+
+	if !migrator.rollbackMigrations(migrations) {
+		console.Success("[migrations] table is empty,nothing to rollback.")
+	}
+}
+
+func (migrator *Migrator) rollbackMigrations(migrations []Migration) bool {
+	//标记是否真的有执行过迁移回退的操作
+	runed := false
+	for _, _migration := range migrations {
+		//友好提示
+		console.Warning("rollback" + _migration.Migration)
+		//执行迁移文件的down方法
+		mfile := getMigrationFile(_migration.Migration)
+		if mfile.Down != nil {
+			mfile.Down(database.DB.Migrator(), database.SQLDB)
+		}
+
+		runed = true
+
+		//回退成功了就删除掉这条记录
+		migrator.DB.Delete(&_migration)
+		//打印运行状态
+		console.Success("finish " + mfile.FileName)
+
+	}
+
+	return runed
+}
+
 // 获取当前这个批次的值
 func (migrator *Migrator) getBatch() int {
 	//默认为1
