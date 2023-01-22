@@ -4,9 +4,6 @@ import (
 	controllers "gohub/app/http/controller/api/v1"
 	"gohub/app/http/controller/api/v1/auth"
 	"gohub/app/http/middlewares"
-	authpkg "gohub/pkg/auth"
-	"gohub/pkg/response"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -55,13 +52,8 @@ func RegisterAPIRoutes(r *gin.Engine) {
 	uc := new(controllers.UsersController)
 	//获取当前用户
 	v1.GET("/user", middlewares.AuthJWT(), uc.CurrentUser)
-
-	v1.GET("/test_auth", middlewares.AuthJWT(), func(c *gin.Context) {
-		userModel := authpkg.CurrentUser(c)
-		response.Data(c, userModel)
-
-	})
-	v1.GET("/test_guest", middlewares.GuestJWT(), func(c *gin.Context) {
-		c.String(http.StatusOK, "Hello guest")
-	})
+	usersGroup := v1.Group("/users")
+	{
+		usersGroup.GET("", uc.Index)
+	}
 }
