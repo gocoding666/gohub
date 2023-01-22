@@ -150,6 +150,7 @@ func (migrator *Migrator) Fresh() {
 
 	//重新调用up命令
 	migrator.Up()
+	
 }
 
 // 获取当前这个批次的值
