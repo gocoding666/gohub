@@ -153,7 +153,7 @@ func (p *Paginator) formatBaseURL(baseURL string) string {
 
 // 拼接分页链接
 func (p Paginator) getPageLink(page int) string {
-	return fmt.Sprintf("%v%v%s=%s&%s=%s&%s=%v",
+	return fmt.Sprintf("%v%v&%s=%s&%s=%s&%s=%v",
 		p.BaseURL,
 		page,
 		config.Get("paging.url_query_sort"),

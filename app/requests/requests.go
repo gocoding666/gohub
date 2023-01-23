@@ -1,9 +1,10 @@
 package requests
 
 import (
+	"gohub/pkg/response"
+
 	"github.com/gin-gonic/gin"
 	"github.com/thedevsaddam/govalidator"
-	"gohub/pkg/response"
 )
 
 // ValidatorFunc验证函数类型
@@ -11,7 +12,7 @@ type ValidatorFunc func(interface{}, *gin.Context) map[string][]string
 
 func Validate(c *gin.Context, obj interface{}, handler ValidatorFunc) bool {
 	//1.解析请求，支持Json数据、表单请求和URL Query
-	if err := c.ShouldBindJSON(obj); err != nil {
+	if err := c.ShouldBind(obj); err != nil {
 		response.BadRequest(c, err, "请求解析错误，请确认请求格式是否正确。上传文件请使用multipart标头，参数请使用JSON格式。")
 		return false
 	}
