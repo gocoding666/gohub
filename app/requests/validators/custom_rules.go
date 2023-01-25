@@ -4,9 +4,12 @@ package validators
 import (
 	"errors"
 	"fmt"
-	"github.com/thedevsaddam/govalidator"
 	"gohub/pkg/database"
+	"strconv"
 	"strings"
+	"unicode/utf8"
+
+	"github.com/thedevsaddam/govalidator"
 )
 
 // 此方发会在初始化时执行，注册自定义表单验证规则
@@ -46,5 +49,32 @@ func init() {
 		//验证通过
 		return nil
 
+	})
+
+	// max_cn:8 中文长度设定不超过8
+	govalidator.AddCustomRule("max_cn", func(field, rule, message string, value interface{}) error {
+		valLength := utf8.RuneCountInString(value.(string))
+		l, _ := strconv.Atoi(strings.TrimPrefix(rule, "max_cn:"))
+		if valLength > l {
+			//如果有自定义错误消息的话，使用自定义消息
+			if message != "" {
+				return errors.New(message)
+			}
+			return fmt.Errorf("长度不能超过 %d 个字", l)
+		}
+		return nil
+	})
+	//min_cn :2 中文长度设定不小于2
+	govalidator.AddCustomRule("min_cn", func(field, rule, message string, value interface{}) error {
+		valLength := utf8.RuneCountInString(value.(string))
+		l, _ := strconv.Atoi(strings.TrimPrefix(rule, "min_cn:"))
+		if valLength < l {
+			// 如果有自定义错误消息的话，使用自定义消息
+			if message != "" {
+				return errors.New(message)
+			}
+			return fmt.Errorf("长须需大于 %d 个字", l)
+		}
+		return nil
 	})
 }
