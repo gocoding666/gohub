@@ -28,7 +28,7 @@ func (ctrl *{{StructNamePlural}}Controller) Show(c *gin.Context) {
 
 func (ctrl *{{StructNamePlural}}Controller) Store(c *gin.Context){
     request:=requests.{{StructName}}Request{}
-    if ok:=request.Validate(c,&request,requests.{{StructName}}Save); !ok {
+    if ok:=requests.Validate(c,&request,requests.{{StructName}}Save); !ok {
         return
     }
     {{VariableName}}Model:={{PackageName}}.{{StructName}}{
