@@ -19,6 +19,8 @@ func init() {
 			"url": config.Env("APP_URL", "http://localhost:3000"),
 			//设置时区，JWT里会使用，日志记录里也会使用到
 			"timezone": config.Env("TIMEZONE", "Asia/Shanghai"),
+			//test
+			"test": config.Env("test", "test"),
 		}
 	})
 }
