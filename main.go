@@ -46,6 +46,7 @@ func main() {
 		make.CmdMake,
 		cmd.CmdMigrate,
 		cmd.CmdDBSeed,
+		cmd.CmdCache,
 	)
 	//配置默认运行Web服务
 	cmd.RegisterDefaultCmd(rootCmd, cmd.CmdServe)
