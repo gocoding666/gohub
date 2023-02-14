@@ -88,3 +88,23 @@ func (ctrl *UsersController) UpdatePhone(c *gin.Context) {
 	}
 
 }
+
+func (ctrl *UsersController) UpdatePassword(c *gin.Context) {
+	request := requests.UserUpdatePasswordRequest{}
+	if ok := requests.Validate(c, &request, requests.UserUpdatePassword); !ok {
+		return
+	}
+	currentUser := auth.CurrentUser(c)
+	//验证原始密码是否正确
+	_, err := auth.Attempt(currentUser.Name, request.Password)
+
+	if err != nil {
+		response.Unauthorized(c, "原密码不正确")
+	} else {
+		//更新密码为新密码
+		currentUser.Password = request.NewPassword
+		currentUser.Save()
+
+		response.Success(c)
+	}
+}
