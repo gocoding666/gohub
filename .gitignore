@@ -3,7 +3,7 @@ tmp
 gohub
 .DS_Store
 .history
-public/uploads/.gitignore
+public/uploads/
 
 # Golang #
 ######################

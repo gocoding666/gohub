@@ -41,7 +41,7 @@ func FileNameWithoutExtension(fileName string) string {
 func SaveUploadAvatar(c *gin.Context, file *multipart.FileHeader) (string, error) {
 	var avatar string
 	//确认目录存在，不存在创建
-	publicPath := "/public"
+	publicPath := "public"
 	dirName := fmt.Sprintf("/uploads/avatar/%s/%s/", app.TimenowInTimezone().Format("2006/01/02"), auth.CurrentUID(c))
 	os.MkdirAll(publicPath+dirName, 0755)
 
