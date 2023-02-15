@@ -13,7 +13,7 @@ type User struct {
 
 	City         string `json:"city,omitempty"`
 	Introduction string `json:"introduction,omitempty"`
-	Avator       string `json:"avatar,omitempty"`
+	Avatar       string `json:"avatar,omitempty"`
 	Email        string `json:"-"`
 	Phone        string `json:"-"`
 	Password     string `json:"-"`
